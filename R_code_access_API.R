@@ -5,6 +5,9 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(rlist))
 suppressMessages(library(reshape2))
 
+####################################API and requests############################################
+################################################################################################
+
 #Obtain IUCN API key 
 Sys.getenv("IUCN_KEY") # hides IUCN API key in R environment
 apikey <- Sys.getenv("IUCN_KEY") # Obtains API key from environment and sets it to callable variable
@@ -16,6 +19,9 @@ test # should print a data-frame of Gorrila gorilla with preliminary information
 out <- rl_sp_country(country = 'MY', key = apikey) # rl_search by country so all species in that country contained in the API can be obtained
 # in this case the search country is malaysia isocode is MY
 all_df <- out$result # obtain results only
+
+###################################Sorting request data in to meaningful arrays#################
+################################################################################################
 
 # obtain all endangered species quoted isocodes are indicative of endangered or vulnerable categories
 all_df = all_df[(all_df$category == 'CR' | all_df$category == 'EN' | all_df$category == 'VU' | all_df$category == 'LR'),]
