@@ -36,3 +36,6 @@ api_clean['BOOLEAN'] = list(sapply(api_clean$habitat, `%in%`, x = 'Forest - Subt
 # obtains all true values returning all scientific names for montane species
 api_clean_true = api_clean[(api_clean[3] == 'TRUE'),]
 
+# search through all species lists once again to obtain narrative information
+df_complete = api_clean_true %>%
+  mutate(iucn_pull_2 = map(Species, rl_search, key = apikey))
