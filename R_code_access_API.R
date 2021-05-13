@@ -50,5 +50,25 @@ final_df <- df_complete %>% # cleans the data so we obtain only elevation_lower
   mutate(elevation_lower = map(iucn_pull_2, pluck, "result", "elevation_lower")) %>% 
   select(Species, elevation_lower)
 
-#sort list so we only get species with an elevation_lower of 1000m
-final_df = final_df[(final_df$elevation_lower == '1000'),]
+final_df_2 <- df_complete %>% # cleans the data so we obtain only elevation_lower
+  mutate(endangered = map(iucn_pull_2, pluck, "result", "category")) %>% 
+  select(Species, endangered)
+
+###################sort list so we only get species with an elevation_lower of 1000m###############
+###################################################################################################
+
+final_df = cbind(final_df,final_df_2)
+final_df = final_df[(!final_df$elevation_lower == 'NA'),]
+final_df = final_df[(!final_df$elevation_lower < 1000),]
+final_df = final_df %>% select(-3)
+
+final_df['elevation'] = unlist(final_df$elevation_lower)
+final_df['category'] = unlist(final_df$endangered)
+final_df = final_df %>% select(-elevation_lower & -endangered)
+
+ggplot(final_df, aes(x = Species, y = elevation, color = category)) + geom_point() + 
+  theme_bw() + 
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
+  scale_y_continuous(limits = c(1000,NA), expand = c(1000,NA))
+
+write.csv(final_df, "D:\\ENDANGERED_MALAYSIA_ELEVATION_1000.csv", row.names = FALSE)
