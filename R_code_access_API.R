@@ -9,6 +9,7 @@ suppressMessages(library(reshape2))
 ################################################################################################
 
 #Obtain IUCN API key 
+Sys.setenv(IUCN_KEY = 'fcf03dabdd0e2353081b6eac1a965078748e52b345f661492a2aff580d58f3a9')
 Sys.getenv("IUCN_KEY") # hides IUCN API key in R environment
 apikey <- Sys.getenv("IUCN_KEY") # Obtains API key from environment and sets it to callable variable
 
@@ -45,3 +46,10 @@ api_clean_true = api_clean[(api_clean[3] == 'TRUE'),]
 # search through all species lists once again to obtain narrative information
 df_complete = api_clean_true %>%
   mutate(iucn_pull_2 = map(Species, rl_search, key = apikey))
+
+final_df <- df_complete %>% # cleans the data so we obtain only elevation_lower
+  mutate(elevation_lower = map(iucn_pull_2, pluck, "result", "elevation_lower")) %>% 
+  select(Species, elevation_lower)
+
+#sort list so we only get species with an elevation_lower of 1000m
+final_df = final_df[(final_df$elevation_lower == '1000'),]
