@@ -9,7 +9,6 @@ suppressMessages(library(reshape2))
 ################################################################################################
 
 #Obtain IUCN API key 
-Sys.setenv(IUCN_KEY = 'fcf03dabdd0e2353081b6eac1a965078748e52b345f661492a2aff580d58f3a9')
 Sys.getenv("IUCN_KEY") # hides IUCN API key in R environment
 apikey <- Sys.getenv("IUCN_KEY") # Obtains API key from environment and sets it to callable variable
 
