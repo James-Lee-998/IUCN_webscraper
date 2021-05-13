@@ -4,6 +4,8 @@ suppressMessages(library(rredlist))
 suppressMessages(library(tidyverse))
 suppressMessages(library(rlist))
 suppressMessages(library(reshape2))
+suppressMessages(library(ggplot2))
+suppressMessages(library(Rmisc))
 
 ####################################API and requests############################################
 ################################################################################################
@@ -72,3 +74,15 @@ ggplot(final_df, aes(x = Species, y = elevation, color = category)) + geom_point
   scale_y_continuous(limits = c(1000,NA), expand = c(1000,NA))
 
 write.csv(final_df, "D:\\ENDANGERED_MALAYSIA_ELEVATION_1000.csv", row.names = FALSE)
+
+x = aov(elevation~category, data = final_df)
+summary(x)
+
+tgc <- summarySE(final_df, measurevar="elevation", groupvars="category")
+
+ggplot(final_df, aes(x = category, y = elevation, fill = category)) + geom_boxplot() + 
+  geom_jitter(width = 0.1) + 
+  scale_fill_discrete(labels = c("Critically Endangered", "Endagered", "Vulnerable")) + 
+  scale_y_continuous(limits = c(0,3500), expand = c(0,NA)) +
+  labs(y = "Lower elevation /m", x = " ", fill = "IUCN category") + 
+  theme_bw()
