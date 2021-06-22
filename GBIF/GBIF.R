@@ -12,7 +12,7 @@ library(ggrepel)
 library(sf)
 library(rgeos)
 
-List_of_Species = read.csv('D:/TEST.csv')
+List_of_Species = read.csv('D:/MexTMF_trees.csv')
 
 X = List_of_Species %>%
   set_names(c("Taxon", "Author")) %>%
@@ -26,6 +26,13 @@ X = List_of_Species %>%
   filter(Longitude != 'NULL') %>%
   filter(Source != 'NULL') %>%
   filter(Year != 'NULL')
+
+##Extract non-GBIF species
+y = c(List_of_Species$Taxon, X$Taxon)
+
+n = as_tibble(y[ave(seq_along(y),y, FUN = length) == 1])
+
+write.csv(n, file = "D:/GBIF_EXCLUDED.csv", row.names = FALSE)
 
 P = c()
 
