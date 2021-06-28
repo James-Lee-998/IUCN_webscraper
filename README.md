@@ -1,19 +1,65 @@
-# IUCN_webscraper
-An online IUCN webscraper designed for custom outputs to track red listed species. We have three main steps in procuring and realising data which comes from APIs:
+#Application Programming Interfaces for optomised species searches
 
-(1) API and requests
+This ReadMe file takes you through the use of R (and Python) as a function of accessing the IUCN Red List (http://apiv3.iucnredlist.org/api/v3/docs) as well as the GBIF API (https://www.gbif.org/developer/summary). The API for IUCN and GBIF both have inbuilt R packages for the use of their APIs. 
 
-API or Application Programming interface is a bridge between software applications. The use of APIs constitute requests and calls, which in our case is callable data.
-We obtain information from our API by using requests, and call certain features of that request to access specified information. For example, if I wanted to search a webpage
-using an API and I only want pictures of cats then my request would come in the form of a recognisiable tag or a TOKEN. TOKENs define specified categorical parameters which narrow the scope of that request. So in our example, say convenienently the webpage sorts all cat pictures under one TOKEN, we only need to find out what this TOKEN is to form a request which obtains only cat pictures.
+IUCN red list - rredlist (https://www.rdocumentation.org/packages/rredlist/versions/0.5.0)
 
-(2) Sorting request data in to meaningful arrays
+GBIF - RGBIF
+(https://docs.ropensci.org/rgbif/articles/rgbif.html)
 
-Now data needs to be filtered and sorted after a request. Luckily R allows us to sort through dataframes and data structures conditionally. The premise of this is to only obtain what you want. With the IUCN API specifically it is hard to do one single search for items which we want. Each request is specific in the sense that habitats and narrative information cannot be obtained in one single request. This requires recursive searching and sorting until we narrow down dataframes to all the data we wanted in the first place.
+##Firstly a quick description of APIs:
 
-(3) Plotting data
+API or Application Programming interface is a bridge between software applications, allowing for cross-communication between software applications. The use of APIs constitute requests and calls, which in our case is callable data.
+We obtain information from our API by using requests, and call certain features of that request to access information. 
 
-Although not shown in the tutorial, now that you have a large dataframe of 'probably' everything you want, you can start doing analysis on them. For example the package 'red' can be used to geographically map index species by range and distribution. (Cardoso, P., 2017. red-an R package to facilitate species red list assessments according to the IUCN criteria. Biodiversity Data Journal, (5).) I will promptly add another section to the code depicting this in the near future.
+![alt text](https://github.com/James-Lee-998/IUCN_webscraper/Images for Readme/API_image.png?raw=true)
 
-See also: Caviedes-Solis, I.W., Kim, N. and Leaché, A.D., 2020. Species IUCN threat status level increases with elevation: a phylogenetic approach for Neotropical tree frog conservation. Biodiversity and Conservation, 29(8), pp.2515-2537. 
-for another example of the application of IUCN APIs
+We will be talking directly to the API via a programming language: namely R and Python. I chose these two as they are probably the best languages for data sorting and analysis. You may use other languages but they are usually suited for other roles such as Java which is mostly used for the production of software. 
+
+##Rstudio
+
+To start off we must first download R. R is an open-source statistical programming language. It may be downloaded from https://www.r-project.org/. The newest version is R version 4.1.0 (Camp Pontanezen). R is linked with CRAN (Comprehensive R Archive Network) which forms the library of packages for R. 
+
+![alt text](https://github.com/James-Lee-998/IUCN_webscraper/Images for Readme/R_image.png?raw=true)
+
+This image shows the Imperial CRAN mirror. To be honest it doesn't really matter where from the UK you pick your CRAN mirror it all works the same. 
+
+Next you will have to download Rstudio:
+
+https://www.rstudio.com/products/rstudio/download/
+
+Rstudio is an IDE or an Integrated Development Environment. It is a piece of software which helps display your code alongside multiple other facets such as a box to view your current directory or your files and much more. 
+
+Now that you have both downloaded we can start coding. If you are new to R then I suggest you have a look at the R primer on this repository written by Tom Ezard. 
+
+I am assuming you will be using templates of code but also if you just want to have a quick look at the code in Rstudio please feel free to clone this repository. You can do this by using the version control. 
+
+Copy this link: https://github.com/James-Lee-998/IUCN_webscraper.git
+
+If you want to set up a git clone on Rstudio (which means to have the entire repository on your system for easy access) just open a new project on R.
+
+File --> New Project --> Version Control --> Git
+
+And paste the link into the empty tab. 
+
+You can also download it as a zip if you press the green button on github called 'CODE' it will give you an option to download it as a zip file. 
+
+##Installing packages on R
+
+```{r}
+install.packages('rredlist') # IUCN red list
+library(rredlist) # initate the package from library
+
+install.packages('rgbif') # GBIF 
+library(rgbif)
+```
+
+To follow examples for both GBIF and IUCN API use on R please refer to the files:
+
+ - IUCN_example.R
+ - GBIF_example.R
+ 
+
+
+
+
