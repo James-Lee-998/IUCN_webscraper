@@ -1,4 +1,4 @@
-#Application Programming Interfaces for optomised species searches
+# Application Programming Interfaces for optomised species searches #
 
 This ReadMe file takes you through the use of R (and Python) as a function of accessing the IUCN Red List (http://apiv3.iucnredlist.org/api/v3/docs) as well as the GBIF API (https://www.gbif.org/developer/summary). The API for IUCN and GBIF both have inbuilt R packages for the use of their APIs. 
 
@@ -7,7 +7,7 @@ IUCN red list - rredlist (https://www.rdocumentation.org/packages/rredlist/versi
 GBIF - RGBIF
 (https://docs.ropensci.org/rgbif/articles/rgbif.html)
 
-##Firstly a quick description of APIs:
+## Firstly a quick description of APIs: ##
 
 API or Application Programming interface is a bridge between software applications, allowing for cross-communication between software applications. The use of APIs constitute requests and calls, which in our case is callable data.
 We obtain information from our API by using requests, and call certain features of that request to access information. 
@@ -16,7 +16,7 @@ We obtain information from our API by using requests, and call certain features 
 
 We will be talking directly to the API via a programming language: namely R and Python. I chose these two as they are probably the best languages for data sorting and analysis. You may use other languages but they are usually suited for other roles such as Java which is mostly used for the production of software. 
 
-##Rstudio
+## Rstudio ##
 
 To start off we must first download R. R is an open-source statistical programming language. It may be downloaded from https://www.r-project.org/. The newest version is R version 4.1.0 (Camp Pontanezen). R is linked with CRAN (Comprehensive R Archive Network) which forms the library of packages for R. 
 
@@ -44,7 +44,7 @@ And paste the link into the empty tab.
 
 You can also download it as a zip if you press the green button on github called 'CODE' it will give you an option to download it as a zip file. 
 
-##Installing packages on R
+### Installing packages on R ###
 
 ```{r}
 install.packages('rredlist') # IUCN red list
