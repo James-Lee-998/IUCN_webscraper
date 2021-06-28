@@ -1,0 +1,89 @@
+---
+title: "IUCN_Example"
+author: "James Lee"
+date: "28/06/2021"
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+Relevant libraries 
+
+```{r}
+#Packages
+suppressMessages(library(utils))
+suppressMessages(library(rredlist))
+suppressMessages(library(tidyverse))
+suppressMessages(library(rlist))
+suppressMessages(library(reshape2))
+suppressMessages(library(ggplot2))
+suppressMessages(library(Rmisc))
+suppressMessages(library(dplyr))
+suppressMessages(library(plotly))
+```
+
+Relevant packages are downloaded, now we can connect with the API. Let's make a test query first on `Gorilla gorilla`
+
+```{r}
+#Obtain IUCN API key 
+apikey <- Sys.getenv("IUCN_KEY") # Obtains API key from environment and sets it to callable variable
+
+#Gorilla test
+test = rl_search('Gorilla gorilla', key = apikey) # rl_search is a function which allows us to search at a species by species basis
+print(t(test$result)) # should print a data-frame of Gorrila gorilla with preliminary information
+
+```
+
+We've returned a JSON formatted file with a list of information on `Gorilla gorilla`. You can see what limitations on data we have here.
+
+To refine our search we can make a new dataframe which contains information about all the species in Malaysia and filter them to look specifically at species which are endangered and live in tropical montane regions and also have a lower elevation limit of >1000m
+
+```{r}
+
+out = rl_sp_country(country = 'MY', key = apikey) # rl_search by country so all species in that country contained in the API can be obtained
+# in this case the search country is malaysia isocode is MY
+all_df = out$result # obtain results only
+
+Endangered_list = all_df %>%  
+  filter(category == c('CR','EN', 'VU', 'LR')) %>%  # Filtering step so we only obtain species which are endangered
+  mutate(iucn_pull = map(scientific_name, rl_habitats, key = apikey)) # create a new column with habitat information 
+
+Endangered_list # output
+
+```
+If we look at this output we see that we have a dataframe of all the Taxa which we care about situated specifically in Malaysia.
+
+Now let's filter the species list further to match all the previous conditions we mentioned above.
+
+```{r}
+api_clean = Endangered_list%>% 
+  mutate(habitat = map(iucn_pull, pluck, "result", "habitat")) %>% 
+  select(scientific_name, habitat) ]#returns habitat data for each species
+api_clean
+
+```
+
+The dataframe is a bit messy which is why we cannot see the actual values in the habitat column. So we can get R to identify it for us systematically whilst simultaneously keeping the species which live in Tropical Montane regions .
+
+```{r}
+api_clean = api_clean %>%
+  mutate(BOOLEAN = map(habitat, `%in%`, x = 'Forest - Subtropical/Tropical Moist Montane')) %>%
+  filter(BOOLEAN == 'TRUE') #attach a filter to check if TRUE is TRUE
+
+api_clean
+```
+This data frame shows all species which are found in Montane tropical regions.
+
+```{r}
+api_clean = api_clean %>%
+  select(scientific_name) %>% # select only the names
+  mutate(iucn_pull_2 = map(scientific_name, rl_search, key = apikey)) %>% # search for narrative information
+  mutate(elevation_lower = as.numeric(map(iucn_pull_2, pluck, "result", "elevation_lower"))) %>% # pluck elevation data from information
+  mutate(category = as.character(map(iucn_pull_2, pluck, "result", "category"))) %>% 
+  select(scientific_name, elevation_lower, category) %>%
+  filter(elevation_lower > 1000)
+
+api_clean
+```
+Finally we can request elevation information from rredlist and now we have all the endangered species which live in Tropical Montane regions in Malaysia that have a lower elevation limit of above 1000m.
+
