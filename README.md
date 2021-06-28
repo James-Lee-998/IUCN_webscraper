@@ -12,7 +12,7 @@ GBIF - RGBIF
 API or Application Programming interface is a bridge between software applications, allowing for cross-communication between software applications. The use of APIs constitute requests and calls, which in our case is callable data.
 We obtain information from our API by using requests, and call certain features of that request to access information. 
 
-<img src  = "https://imgur.com/VjZVa5f" >
+![API Diagram](/Images/API_image.png)
 
 We will be talking directly to the API via a programming language: namely R and Python. I chose these two as they are probably the best languages for data sorting and analysis. You may use other languages but they are usually suited for other roles such as Java which is mostly used for the production of software. 
 
@@ -20,7 +20,7 @@ We will be talking directly to the API via a programming language: namely R and 
 
 To start off we must first download R. R is an open-source statistical programming language. It may be downloaded from https://www.r-project.org/. The newest version is R version 4.1.0 (Camp Pontanezen). R is linked with CRAN (Comprehensive R Archive Network) which forms the library of packages for R. 
 
-<img src  = "https://imgur.com/qCXgBEa" >
+![CRAN](/Images/R_image.png)
 
 This image shows the Imperial CRAN mirror. To be honest it doesn't really matter where from the UK you pick your CRAN mirror it all works the same. 
 
