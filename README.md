@@ -1,4 +1,4 @@
-# Application Programming Interfaces for optomised species searches #
+# Application Programming Interfaces for optimised species searches #
 
 This ReadMe file takes you through the use of R (and Python) as a function of accessing the IUCN Red List (http://apiv3.iucnredlist.org/api/v3/docs) as well as the GBIF API (https://www.gbif.org/developer/summary). The API for IUCN and GBIF both have inbuilt R packages for the use of their APIs. 
 
